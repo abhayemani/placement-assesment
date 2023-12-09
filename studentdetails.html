@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+       body{
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(120deg,#2980b9, #8e44ad);
+  height: 100vh;
+  overflow: hidden;
+}
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar fixed-top bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index2.html">BACK</a>
+        </div>
+      </nav>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Student Details Form</h5>
+
+                <form id="dataForm">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rollNo">Roll No:</label>
+                        <input type="text" class="form-control" id="rollNo" name="rollNo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="branch">Branch:</label>
+                        <input type="text" class="form-control" id="branch" name="branch" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cgpa">CGPA:</label>
+                        <input type="number" class="form-control" id="cgpa" name="cgpa" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resume">Resume (PDF):</label>
+                        <input type="file" class="form-control-file" id="resume" name="resume" accept=".pdf" required>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="addStudent()">Add Student</button>
+                    <button type="button" class="btn btn-success" onclick="retrieveStudents()">Retrieve Students</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="studentList" class="mt-4"></div>
+    </div>
+
+    <script>
+        let studentsData = [];
+
+        function addStudent() {
+            const name = document.getElementById('name').value;
+            const rollNo = document.getElementById('rollNo').value;
+            const gender = document.getElementById('gender').value;
+            const branch = document.getElementById('branch').value;
+            const cgpa = document.getElementById('cgpa').value;
+            const resume = document.getElementById('resume').value; // In a real scenario, handle file upload
+
+            const studentData = {
+                name: name,
+                rollNo: rollNo,
+                gender: gender,
+                branch: branch,
+                cgpa: cgpa,
+                resume: resume
+            };
+
+            studentsData.push(studentData);
+
+            // Clear the form after adding a student
+            document.getElementById('name').value = '';
+            document.getElementById('rollNo').value = '';
+            document.getElementById('gender').value = 'male';
+            document.getElementById('branch').value = '';
+            document.getElementById('cgpa').value = '';
+            document.getElementById('resume').value = '';
+        }
+
+        function retrieveStudents() {
+            // Display the list of students
+            const studentListDiv = document.getElementById('studentList');
+            studentListDiv.innerHTML = '';
+
+            studentsData.forEach((student, index) => {
+                const card = document.createElement('div');
+                card.className = 'card mb-3';
+                card.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">Student ${index + 1}</h5>
+                        <p class="card-text">
+                            <strong>Name:</strong> ${student.name}<br>
+                            <strong>Roll No:</strong> ${student.rollNo}<br>
+                            <strong>Gender:</strong> ${student.gender}<br>
+                            <strong>Branch:</strong> ${student.branch}<br>
+                            <strong>CGPA:</strong> ${student.cgpa}<br>
+                            <strong>Resume:</strong> ${student.resume}
+                        </p>
+                        <button type="button" class="btn btn-warning" onclick="editStudent(${index})">Edit</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteStudent(${index})">Delete</button>
+                    </div>
+                `;
+                studentListDiv.appendChild(card);
+            });
+        }
+
+        function editStudent(index) {
+            // You can implement the edit functionality based on your requirements
+            alert('Edit functionality is not implemented in this example.');
+        }
+
+        function deleteStudent(index) {
+            studentsData.splice(index, 1);
+            retrieveStudents(); // Refresh the display after deletion
+        }
+    </script>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
